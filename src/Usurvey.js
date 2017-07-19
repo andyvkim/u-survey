@@ -17,8 +17,8 @@ class Usurvey extends Component {
     this.setState({studentName: studentName}, function(){
       console.log(this.state);
     });
-
   }
+
   constructor(props){
     super(props);
 
@@ -33,6 +33,14 @@ class Usurvey extends Component {
       isSubmitted: false
     };
     this.nameSubmit = this.nameSubmit.bind(this);
+    this.answerSelected = this.answerSelected.bind(this);
+    this.questionSubmit = this.questionSubmit.bind(this);
+  }
+  answerSelected(){
+    //work on this
+  }
+  questionSubmit(){
+    //work on this
   }
 
   render(){
@@ -51,10 +59,26 @@ class Usurvey extends Component {
       studentName = <h1>Hey there, {this.state.studentName}</h1>;
         questions = <div>
           <h2>Here are some questions: </h2>
-          <form>
+          <form onSubmit={this.questionSubmit}>
             <div className = 'card'>
               <label>What kind of courses do you like the most?</label><br/>
+              <input type = 'radio' name = 'answer1' value = 'technology' onChange = {this.answerSelected}/>technology
+              <input type = 'radio' name = 'answer1' value = 'marketing'/>marketing
+              <input type = 'radio' name = 'answer1' value = 'art'/>art
             </div>
+            <div className = 'card'>
+              <label>What are you?</label><br/>
+              <input type = 'radio' name = 'answer2' value = 'student' onChange = {this.answerSelected}/>student
+              <input type = 'radio' name = 'answer2' value = 'working'/>working
+              <input type = 'radio' name = 'answer2' value = 'looking for work'/>looking for work
+            </div>
+            <div className = 'card'>
+              <label>Is online learning helpful?</label><br/>
+              <input type = 'radio' name = 'answer3' value = 'yes' onChange = {this.answerSelected}/>yes
+              <input type = 'radio' name = 'answer3' value = 'no'/>no
+              <input type = 'radio' name = 'answer3' value = 'maybe for work'/>maybe
+            </div>
+            <input className='feedback-button' type = 'submit' value = 'submit'/>
           </form>
         </div>
     }
