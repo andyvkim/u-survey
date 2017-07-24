@@ -24,7 +24,7 @@ class Usurvey extends Component {
 
     this.state = {
       uid: uuid.v1(),
-      studentName: 'krillin',
+      studentName: '',
       answers:{
         answer1:'',
         answer2:'',
@@ -36,11 +36,26 @@ class Usurvey extends Component {
     this.answerSelected = this.answerSelected.bind(this);
     this.questionSubmit = this.questionSubmit.bind(this);
   }
-  answerSelected(){
-    //work on this
+  answerSelected(event){
+    var answers = this.state.answers;
+    if(event.target.name === 'answer1'){
+      answers.answer1 = event.target.value;
+    }
+    else if(event.target.name === 'answer2'){
+      answers.answer2 = event.target.value;
+    }else if(event.target.name === 'answer3'){
+      answers.answer3 = event.target.value;
+    }
+    this.setState({answers:answers}, function(){
+      console.log(this.state);
+    });
   }
   questionSubmit(){
-    //work on this
+    firebase.database().ref('uSurvey/' + this.state.uid).set({
+      studentName: this.state.studentName,
+      answers: this.state.answers
+    });
+    this.setState({isSubmitted:true});
   }
 
   render(){
@@ -63,24 +78,26 @@ class Usurvey extends Component {
             <div className = 'card'>
               <label>What kind of courses do you like the most?</label><br/>
               <input type = 'radio' name = 'answer1' value = 'technology' onChange = {this.answerSelected}/>technology
-              <input type = 'radio' name = 'answer1' value = 'marketing'/>marketing
-              <input type = 'radio' name = 'answer1' value = 'art'/>art
+              <input type = 'radio' name = 'answer1' value = 'marketing' onChange = {this.answerSelected}/>marketing
+              <input type = 'radio' name = 'answer1' value = 'art' onChange = {this.answerSelected}/>art
             </div>
             <div className = 'card'>
               <label>What are you?</label><br/>
               <input type = 'radio' name = 'answer2' value = 'student' onChange = {this.answerSelected}/>student
-              <input type = 'radio' name = 'answer2' value = 'working'/>working
-              <input type = 'radio' name = 'answer2' value = 'looking for work'/>looking for work
+              <input type = 'radio' name = 'answer2' value = 'working'onChange = {this.answerSelected}/>working
+              <input type = 'radio' name = 'answer2' value = 'looking for work'onChange = {this.answerSelected}/>looking for work
             </div>
             <div className = 'card'>
               <label>Is online learning helpful?</label><br/>
               <input type = 'radio' name = 'answer3' value = 'yes' onChange = {this.answerSelected}/>yes
-              <input type = 'radio' name = 'answer3' value = 'no'/>no
-              <input type = 'radio' name = 'answer3' value = 'maybe for work'/>maybe
+              <input type = 'radio' name = 'answer3' value = 'no'onChange = {this.answerSelected}/>no
+              <input type = 'radio' name = 'answer3' value = 'maybe for work'onChange = {this.answerSelected}/>maybe
             </div>
             <input className='feedback-button' type = 'submit' value = 'submit'/>
           </form>
         </div>
+    } else if (this.state.isSubmitted === true){
+      studentName = <h1>Thanks {this.state.studentName}</h1>
     }
 
 
